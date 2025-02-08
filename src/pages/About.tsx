@@ -35,14 +35,21 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative bg-dark-200 rounded-3xl p-12 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-primary-600/5" />
-        <div className="relative space-y-6 max-w-3xl">
-          <h1 className="text-4xl font-bold">About Ahmad Yasin</h1>
-          <p className="text-xl text-gray-400">
-            A visionary tech leader and entrepreneur, driving innovation through
-            the Nexariza Group of companies. With expertise in AI, IoT, and
-            educational technology, I'm committed to creating solutions that
-            shape the future of technology.
-          </p>
+        <div className="relative space-y-6 flex flex-col md:flex-row items-center gap-8">
+          <img
+            src="https://nexariza.me/AhmadYasin.jpg"
+            alt="Ahmad Yasin"
+            className="w-48 h-48 rounded-full object-cover border-4 border-primary-500"
+          />
+          <div className="space-y-6 max-w-3xl">
+            <h1 className="text-4xl font-bold">About Ahmad Yasin</h1>
+            <p className="text-xl text-gray-400">
+              A visionary tech leader and entrepreneur, driving innovation through
+              the Nexariza Group of companies. With expertise in AI, IoT, and
+              educational technology, I'm committed to creating solutions that
+              shape the future of technology.
+            </p>
+          </div>
         </div>
       </section>
 
