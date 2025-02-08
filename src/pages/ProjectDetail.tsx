@@ -139,31 +139,76 @@ export default function ProjectDetail() {
           ))}
         </div>
 
-        <div className="prose prose-invert max-w-none">
-          <ReactMarkdown
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || '');
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={atomDark}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
-              }
-            }}
+        <div className="prose prose-invert max-w-none font-mono">
+  <ReactMarkdown
+    components={{
+      h1: ({ node, ...props }) => (
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-4xl font-bold mb-6"
+          {...props}
+        />
+      ),
+      h2: ({ node, ...props }) => (
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-3xl font-bold mt-8 mb-4"
+          {...props}
+        />
+      ),
+      p: ({ node, ...props }) => (
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="text-lg leading-relaxed mb-4"
+          {...props}
+        />
+      ),
+      ul: ({ node, ...props }) => (
+        <motion.ul
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="list-disc list-inside mb-6"
+          {...props}
+        />
+      ),
+      li: ({ node, ...props }) => (
+        <motion.li
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="mb-2"
+          {...props}
+        />
+      ),
+      code: ({ node, inline, className, children, ...props }) => {
+        const match = /language-(\w+)/.exec(className || '');
+        return !inline && match ? (
+          <SyntaxHighlighter
+            style={atomDark}
+            language={match[1]}
+            PreTag="div"
+            {...props}
           >
-            {project.content}
-          </ReactMarkdown>
-        </div>
+            {String(children).replace(/\n$/, '')}
+          </SyntaxHighlighter>
+        ) : (
+          <code className="bg-dark-300 px-2 py-1 rounded-md text-primary-400" {...props}>
+            {children}
+          </code>
+        );
+      },
+    }}
+  >
+    {project.content}
+  </ReactMarkdown>
+</div>
 
         {project.team_members.length > 0 && (
           <div className="space-y-4">
