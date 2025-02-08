@@ -7,13 +7,13 @@ const About = () => {
     {
       title: 'CEO & Founder',
       company: 'Nexariza Group',
-      period: '2018 - Present',
+      period: '2024 - Present',
       description: 'Leading multiple technology ventures focused on innovation in AI, IoT, and education.',
     },
     {
       title: 'Tech Innovation Leader',
       company: 'Various Tech Giants',
-      period: '2015 - 2018',
+      period: '2021 - 2023',
       description: 'Spearheaded technological innovations and digital transformation initiatives.',
     },
   ];
