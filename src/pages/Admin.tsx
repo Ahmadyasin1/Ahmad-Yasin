@@ -41,27 +41,27 @@ export default function Admin() {
     checkAuth();
   }, []);
 
-  // // Handle login
-  // const handleLogin = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     const { data, error: signInError } = await supabase.auth.signInWithPassword({
-  //       email,
-  //       password
-  //     });
+  // Handle login
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
 
-  //     if (signInError) throw signInError;
+      if (signInError) throw signInError;
 
-  //     if (data.user?.email === 'admin@nexariza.com') {
-  //       setIsAuthenticated(true);
-  //       setError(null);
-  //     } else {
-  //       throw new Error('Unauthorized access');
-  //     }
-  //   } catch (err) {
-  //     setError('Invalid credentials or unauthorized access');
-  //   }
-  // };
+      if (data.user?.email === 'admin@nexariza.com') {
+        setIsAuthenticated(true);
+        setError(null);
+      } else {
+        throw new Error('Unauthorized access');
+      }
+    } catch (err) {
+      setError('Invalid credentials or unauthorized access');
+    }
+  };
 
   // Fetch projects and resource stats
   useEffect(() => {
