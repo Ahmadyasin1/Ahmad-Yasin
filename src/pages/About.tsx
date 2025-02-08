@@ -7,13 +7,13 @@ const About = () => {
     {
       title: 'CEO & Founder',
       company: 'Nexariza Group',
-      period: '2024 - Present',
+      period: '2018 - Present',
       description: 'Leading multiple technology ventures focused on innovation in AI, IoT, and education.',
     },
     {
       title: 'Tech Innovation Leader',
       company: 'Various Tech Giants',
-      period: '2021 - 2023',
+      period: '2015 - 2018',
       description: 'Spearheaded technological innovations and digital transformation initiatives.',
     },
   ];
@@ -35,21 +35,14 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative bg-dark-200 rounded-3xl p-12 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-primary-600/5" />
-        <div className="relative space-y-6 flex flex-col md:flex-row items-center gap-8">
-          <img
-            src="https://nexariza.me/AhmadYasin.jpg"
-            alt="Ahmad Yasin"
-            className="w-48 h-48 rounded-full object-cover border-4 border-primary-500"
-          />
-          <div className="space-y-6 max-w-3xl">
-            <h1 className="text-4xl font-bold">About Ahmad Yasin</h1>
-            <p className="text-xl text-gray-400">
-              A visionary tech leader and entrepreneur, driving innovation through
-              the Nexariza Group of companies. With expertise in AI, IoT, and
-              educational technology, I'm committed to creating solutions that
-              shape the future of technology.
-            </p>
-          </div>
+        <div className="relative space-y-6 max-w-3xl">
+          <h1 className="text-4xl font-bold">About Ahmad Yasin</h1>
+          <p className="text-xl text-gray-400">
+            A visionary tech leader and entrepreneur, driving innovation through
+            the Nexariza Group of companies. With expertise in AI, IoT, and
+            educational technology, I'm committed to creating solutions that
+            shape the future of technology.
+          </p>
         </div>
       </section>
 
