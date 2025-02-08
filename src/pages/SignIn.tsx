@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, AlertCircle } from 'lucide-react';
-import { supabase } from './supabase';
+import { supabase } from '../lib/supabase';
 
 export default function SignIn() {
   const navigate = useNavigate();
