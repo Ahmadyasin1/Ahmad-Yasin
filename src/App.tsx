@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import ProjectForm from './pages/ProjectForm';
 import SignIn from './pages/SignIn';
+import Chatbot from './components/Chatbot';
 import { useAuth } from './hooks/useAuth';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
@@ -62,6 +63,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <Chatbot />
       </div>
     </Router>
   );
