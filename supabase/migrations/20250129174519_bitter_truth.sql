@@ -84,6 +84,31 @@ CREATE TABLE IF NOT EXISTS media (
   created_at timestamptz DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS certificates (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  title text NOT NULL,
+  issuer text NOT NULL,
+  date text NOT NULL,
+  credential text NOT NULL,
+  url text NOT NULL,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now(),
+  user_id uuid REFERENCES auth.users(id)
+);
+
+CREATE TABLE IF NOT EXISTS education (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  degree text NOT NULL,
+  institution text NOT NULL,
+  period text NOT NULL,
+  description text,
+  achievements text[],  -- To store an array of achievements
+  user_id uuid REFERENCES auth.users(id),
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+
 -- Enable Row Level Security
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE technologies ENABLE ROW LEVEL SECURITY;
@@ -91,6 +116,7 @@ ALTER TABLE team_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_technologies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_team_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media ENABLE ROW LEVEL SECURITY;
+ALTER TABLE certificates ADD COLUMN image_url text;
 
 -- Policies for projects
 CREATE POLICY "Public read access for projects"
