@@ -1,34 +1,45 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
-import { MessageCircle, Send, X, Bot, User, Mail, Github, Linkedin, Mic, Terminal, Minimize2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageCircle, Send, X, Bot, User, Mail, Github, Linkedin, Mic, Terminal, Minimize2, Maximize2 } from 'lucide-react';
 import Typewriter from 'typewriter-effect';
 
 interface Message {
   type: 'user' | 'bot';
   content: string | JSX.Element;
   timestamp: Date;
+  isTyping?: boolean;
 }
 
 const AHMAD_INFO = {
   name: 'Ahmad Yasin',
   role: 'CEO of Nexariza Group',
-  expertise: ['AI', 'IoT', 'Machine Learning', 'Robotics', 'Quantum Computing'],
+  expertise: [
+    'Artificial Intelligence (AI)',
+    'Machine Learning',
+    'Deep Learning',
+    'Flask',
+    'Django',
+    'Python',
+    'AI Model Deployment',
+    'SQL',
+    'API Integration',
+    'HTML/CSS',
+    'Next.js/Node.js',
+    'Full Stack Development'
+  ],
   education: [
-    'Ph.D. in Artificial Intelligence from Stanford University',
-    'M.S. in Computer Science from MIT',
-    'B.S. in Computer Engineering from UC Berkeley',
+    'B.S. in Artificial Intelligence from University of Central Punjab',
   ],
   experience: [
-    'CEO & Founder at Nexariza Group (2018-Present)',
-    'Tech Innovation Leader at Various Tech Giants (2015-2018)',
-    'Lead Researcher at AI Labs (2012-2015)',
+    'Tech Innovation Leader at Various Tech Giants (2021-2025)',
+    'Lead Researcher at AI Labs (2024-2025)',
   ],
   projects: [
     'AI-Powered Object Detection System',
-    'Smart Home Automation Hub',
     'Neural Network Research',
-    'Quantum Computing Algorithms',
-    'Autonomous Drone Navigation',
+    'Deep Learning Models',
+    'Flask/Django Web Applications',
+    'Full Stack AI Solutions',
   ],
   achievements: [
     'Forbes 30 Under 30 in Technology',
@@ -52,8 +63,37 @@ const getGreeting = () => {
 const processUserInput = (input: string): string | JSX.Element => {
   const normalizedInput = input.toLowerCase();
 
+  // AI/ML related queries
+  if (normalizedInput.includes('ai') || normalizedInput.includes('artificial intelligence') || normalizedInput.includes('machine learning')) {
+    return `I specialize in Artificial Intelligence and Machine Learning. My expertise includes:
+    • Deep Learning and Neural Networks
+    • AI Model Development and Deployment
+    • Machine Learning Algorithms
+    • Computer Vision and NLP
+    • AI Research and Innovation`;
+  }
+
+  // Development skills
+  if (normalizedInput.includes('programming') || normalizedInput.includes('coding') || normalizedInput.includes('development')) {
+    return `My development stack includes:
+    • Python (Django, Flask)
+    • Full Stack Development
+    • API Integration
+    • Database Management (SQL)
+    • Web Technologies (HTML/CSS, Next.js, Node.js)`;
+  }
+
+  // Project inquiries
+  if (normalizedInput.includes('project') || normalizedInput.includes('work')) {
+    return `Some of my notable projects include:
+    • ${AHMAD_INFO.projects.join('\n• ')}
+    
+    Each project showcases my expertise in AI, ML, and full-stack development.`;
+  }
+
+  // Standard queries
   if (normalizedInput.includes('who') && normalizedInput.includes('you')) {
-    return `I'm Ahmad Yasin, ${AHMAD_INFO.role}. I specialize in ${AHMAD_INFO.expertise.join(', ')}.`;
+    return `I'm ${AHMAD_INFO.name}, ${AHMAD_INFO.role}. I'm an AI and Machine Learning expert with extensive experience in full-stack development and AI solutions.`;
   }
 
   if (normalizedInput.includes('education') || normalizedInput.includes('study')) {
@@ -64,10 +104,6 @@ const processUserInput = (input: string): string | JSX.Element => {
     return `My professional experience includes:\n${AHMAD_INFO.experience.join('\n')}`;
   }
 
-  if (normalizedInput.includes('project')) {
-    return `Some of my notable projects include:\n${AHMAD_INFO.projects.join('\n')}`;
-  }
-
   if (normalizedInput.includes('achievement') || normalizedInput.includes('award')) {
     return `My achievements include:\n${AHMAD_INFO.achievements.join('\n')}`;
   }
@@ -75,7 +111,7 @@ const processUserInput = (input: string): string | JSX.Element => {
   if (normalizedInput.includes('contact') || normalizedInput.includes('email') || normalizedInput.includes('reach')) {
     return (
       <div>
-        <p>You can reach me at:</p>
+        <p>You can reach me through:</p>
         <div className="flex items-center gap-2 mt-2">
           <Mail className="w-4 h-4" />
           <a href={`mailto:${AHMAD_INFO.contact.email}`} className="text-future-light hover:underline">
@@ -99,10 +135,17 @@ const processUserInput = (input: string): string | JSX.Element => {
   }
 
   if (normalizedInput.includes('hello') || normalizedInput.includes('hi')) {
-    return `${getGreeting()} I'm Ahmad's AI assistant. How can I help you today?`;
+    return `${getGreeting()} I'm Ahmad's AI assistant. I can tell you about my expertise in AI, ML, development skills, projects, or how to get in touch. What would you like to know?`;
   }
 
-  return "I can tell you about Ahmad's background, education, experience, projects, achievements, or how to contact him. What would you like to know?";
+  // Default response
+  return `I can tell you about my expertise in:
+  • AI and Machine Learning
+  • Full Stack Development
+  • Python Development
+  • Projects and Achievements
+  
+What would you like to know more about?`;
 };
 
 export default function Chatbot() {
@@ -112,7 +155,7 @@ export default function Chatbot() {
   const [input, setInput] = useState('');
   const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimationControls();
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -123,15 +166,16 @@ export default function Chatbot() {
       setMessages([
         {
           type: 'bot',
-          content: `${getGreeting()} I'm Ahmad's AI assistant. How can I help you learn more about Ahmad Yasin?`,
+          content: `${getGreeting()} I'm Ahmad's AI assistant. I can help you learn about my expertise in AI, ML, development, and more. What would you like to know?`,
           timestamp: new Date(),
+          isTyping: true,
         },
       ]);
     }
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -145,6 +189,7 @@ export default function Chatbot() {
       type: 'bot',
       content: processUserInput(input),
       timestamp: new Date(),
+      isTyping: true,
     };
 
     setMessages([...messages, userMessage, botResponse]);
@@ -168,148 +213,155 @@ export default function Chatbot() {
     }
   };
 
-  useEffect(() => {
-    controls.start({
-      y: [-10, 10, -10],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
-    });
-  }, [controls]);
+  const handleMinimize = () => {
+    setIsMinimized(!isMinimized);
+  };
+
+  const chatbotVariants = {
+    hidden: { opacity: 0, y: 100, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      height: '80vh',
+      maxHeight: '80vh'
+    },
+    minimized: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      height: '60px'
+    },
+    exit: { opacity: 0, y: 100, scale: 0.8 },
+  };
 
   return (
     <>
       <motion.button
-        animate={controls}
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 p-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => {
+          setIsOpen(true);
+          setIsMinimized(false);
+        }}
+        className="fixed bottom-8 right-8 p-4 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
       >
-        <div className="relative">
-          <MessageCircle className="w-8 h-8 text-white" />
-          <div className="absolute inset-0 rounded-full bg-blue-300/20 animate-ping-slow" />
-        </div>
+        <MessageCircle className="w-6 h-6 text-white" />
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 100, scale: 0.8 }}
-            className="fixed bottom-8 right-8 w-[90vw] max-w-[500px] h-[80vh] max-h-[700px] bg-gray-800 backdrop-blur-2xl border border-indigo-600/30 rounded-2xl shadow-xl overflow-hidden"
+            ref={chatContainerRef}
+            initial="hidden"
+            animate={isMinimized ? "minimized" : "visible"}
+            exit="exit"
+            variants={chatbotVariants}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed bottom-8 right-8 w-[90vw] max-w-[400px] bg-dark-200/95 backdrop-blur-xl border border-accent-purple/20 rounded-2xl shadow-xl overflow-hidden"
+            style={{
+              maxHeight: isMinimized ? '60px' : '80vh'
+            }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 pointer-events-none" />
             <div className="h-full flex flex-col">
               {/* Header */}
-              <div className="p-4 bg-gray-800 border-b border-indigo-600/30 flex items-center justify-between">
+              <div className="p-4 bg-gradient-to-r from-accent-blue to-accent-purple flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <Bot className="w-8 h-8 text-white" />
-                    <div className="absolute -inset-2 bg-blue-500/20 blur-xl" />
-                  </div>
-                  <span className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
-                    Ahmad Yasin's AI Assistant
-                  </span>
+                  <Bot className="w-6 h-6 text-white" />
+                  <span className="font-semibold text-white">AI Assistant</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setIsMinimized(!isMinimized)}
-                    className="p-2 hover:bg-gray-700/30 rounded-full transition-all"
+                    onClick={handleMinimize}
+                    className="p-1 hover:bg-white/20 rounded-full transition-colors"
                   >
-                    <Minimize2 className="w-5 h-5 text-white" />
+                    {isMinimized ? (
+                      <Maximize2 className="w-4 h-4 text-white" />
+                    ) : (
+                      <Minimize2 className="w-4 h-4 text-white" />
+                    )}
                   </button>
                   <button
-                    onClick={() => setIsOpen(false)}
-                    className="p-2 hover:bg-gray-700/30 rounded-full transition-all"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setMessages([]);
+                    }}
+                    className="p-1 hover:bg-white/20 rounded-full transition-colors"
                   >
-                    <X className="w-5 h-5 text-white" />
+                    <X className="w-4 h-4 text-white" />
                   </button>
                 </div>
               </div>
 
               {/* Messages */}
               {!isMinimized && (
-                <div className="flex-1 overflow-y-auto p-6 space-y-6 relative">
-                  {messages.map((message, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: message.type === 'user' ? 50 : -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div
-                        className={`p-4 rounded-2xl ${
-                          message.type === 'user'
-                            ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                            : 'bg-gray-700 border border-indigo-600/20'
-                        } relative max-w-[80%]`}
+                <>
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[60vh]">
+                    {messages.map((message, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: message.type === 'user' ? 20 : -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
-                        <div className="absolute -inset-1 bg-blue-500/10 blur-lg" />
-                        <div className="relative z-10 flex items-start gap-3">
-                          {message.type === 'bot' ? (
-                            <Terminal className="w-5 h-5 mt-1 text-purple-500" />
+                        <div
+                          className={`max-w-[80%] p-3 rounded-lg ${
+                            message.type === 'user'
+                              ? 'bg-accent-purple text-white ml-auto'
+                              : 'bg-dark-300 text-white'
+                          }`}
+                        >
+                          {message.type === 'bot' && message.isTyping ? (
+                            <Typewriter
+                              options={{
+                                strings: [typeof message.content === 'string' ? message.content : ''],
+                                autoStart: true,
+                                delay: 20,
+                                deleteSpeed: 9999999,
+                                cursor: '',
+                                
+                              }}
+                            />
                           ) : (
-                            <User className="w-5 h-5 mt-1 text-blue-500" />
+                            message.content
                           )}
-                          <div className="flex-1">
-                            {typeof message.content === 'string' ? (
-                              <Typewriter
-                                options={{
-                                  strings: [message.content],
-                                  autoStart: true,
-                                  delay: 20,
-                                  deleteSpeed: 10000000, // Disable text deletion
-                                  loop: false,    // Do not loop the animation
-                                  cursor: '',     // Hide the cursor
-                                }}
-                              />
-                            ) : (
-                              message.content
-                            )}
-                            <div className="mt-2 text-xs text-white/60 flex items-center gap-2">
-                              <span>{message.timestamp.toLocaleTimeString()}</span>
-                              <span className="text-indigo-500">✦</span>
-                              <span>{message.type.toUpperCase()}</span>
-                            </div>
-                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                  <div ref={messagesEndRef} />
-                </div>
-              )}
-
-              {/* Input */}
-              {!isMinimized && (
-                <form onSubmit={handleSubmit} className="p-4 border-t border-indigo-600/20">
-                  <div className="flex items-center gap-4">
-                    <button
-                      type="button"
-                      onClick={startVoiceInput}
-                      className={`p-3 rounded-xl ${
-                        isListening ? 'bg-red-500/30' : 'bg-gray-700/30'
-                      } transition-all`}
-                    >
-                      <Mic className={`w-5 h-5 ${isListening ? 'text-red-500' : 'text-white'}`} />
-                    </button>
-                    <input
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="Ask about Ahmad's work..."
-                      className="flex-1 bg-gray-700/50 border border-indigo-600/30 rounded-xl px-5 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder:text-white/50"
-                    />
-                    <button
-                      type="submit"
-                      className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:opacity-90 transition-all group"
-                    >
-                      <Send className="w-5 h-5 text-white group-hover:translate-x-0.5 transition-transform" />
-                    </button>
+                      </motion.div>
+                    ))}
+                    <div ref={messagesEndRef} />
                   </div>
-                </form>
+
+                  {/* Input */}
+                  <form onSubmit={handleSubmit} className="p-4 border-t border-dark-300">
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={startVoiceInput}
+                        className={`p-2 rounded-full ${
+                          isListening ? 'bg-red-500' : 'bg-dark-300'
+                        } transition-colors`}
+                      >
+                        <Mic className="w-5 h-5 text-white" />
+                      </button>
+                      <input
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder="Ask me anything..."
+                        className="flex-1 bg-dark-300 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent-purple"
+                      />
+                      <button
+                        type="submit"
+                        className="p-2 bg-accent-purple rounded-full hover:bg-accent-purple/80 transition-colors"
+                      >
+                        <Send className="w-5 h-5 text-white" />
+                      </button>
+                    </div>
+                  </form>
+                </>
               )}
             </div>
           </motion.div>

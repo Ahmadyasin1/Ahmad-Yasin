@@ -42,9 +42,7 @@ const Navbar = () => {
                 <span className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
                   Ahmad Yasin
                 </span>
-                <span className="text-xs text-gray-400 block">
-                  CEO, Nexariza Group
-                </span>
+
               </div>
             </Link>
           </div>

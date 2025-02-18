@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  Plus,
-  Edit2,
-  Trash2,
-  Image,
-  FileText,
-  Video,
-  Link,
-  Code,
-  Database,
-  Cpu,
-} from 'lucide-react';
+import { Plus, Edit2, Trash2, Image, FileText, Video, Link, Code, Database, Cpu } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { Project } from '../types';
 
@@ -24,16 +13,12 @@ export default function Admin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [resourceStats, setResourceStats] = useState<{ [key: string]: any }>(
-    {}
-  );
+  const [resourceStats, setResourceStats] = useState<{[key: string]: any}>({});
 
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       if (session?.user.email === 'admin@nexariza.com') {
         setIsAuthenticated(true);
       }
@@ -79,7 +64,7 @@ export default function Admin() {
         setProjects(projectsData);
 
         // Fetch resource stats for each project
-        const stats: { [key: string]: any } = {};
+        const stats: {[key: string]: any} = {};
         for (const project of projectsData) {
           if (project.demo_url) {
             // Simulate resource stats (replace with actual API calls)
@@ -87,7 +72,7 @@ export default function Admin() {
               cpu: Math.random() * 100,
               memory: Math.random() * 16,
               storage: Math.random() * 1000,
-              requests: Math.floor(Math.random() * 1000),
+              requests: Math.floor(Math.random() * 1000)
             };
           }
         }
@@ -111,14 +96,16 @@ export default function Admin() {
   };
 
   const handleDeleteProject = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this project?'))
-      return;
+    if (!window.confirm('Are you sure you want to delete this project?')) return;
 
     try {
-      const { error } = await supabase.from('projects').delete().eq('id', id);
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', id);
 
       if (error) throw error;
-      setProjects(projects.filter((p) => p.id !== id));
+      setProjects(projects.filter(p => p.id !== id));
     } catch (err) {
       setError('Failed to delete project');
     }
@@ -229,13 +216,11 @@ export default function Admin() {
                   <span className="px-2 py-1 text-sm rounded-full bg-dark-300 text-primary-400">
                     {project.category}
                   </span>
-                  <span
-                    className={`px-2 py-1 text-sm rounded-full ${
-                      project.status === 'published'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-yellow-100 text-yellow-800'
-                    }`}
-                  >
+                  <span className={`px-2 py-1 text-sm rounded-full ${
+                    project.status === 'published'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-yellow-100 text-yellow-800'
+                  }`}>
                     {project.status}
                   </span>
                 </div>
@@ -333,4 +318,4 @@ export default function Admin() {
       </div>
     </motion.div>
   );
-}
+};

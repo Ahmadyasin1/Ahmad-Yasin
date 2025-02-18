@@ -21,3 +21,141 @@
     @apply border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white;
   }
 }
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Gradient Animations */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r;
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-500/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-500;
+}
+
+/* Glass Morphism */
+.glass {
+  @apply backdrop-blur-lg bg-white/10;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Text Gradient Animation */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-blue via-accent-purple to-accent-pink;
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+
+/* Glow Effects */
+.glow {
+  box-shadow: 0 0 15px theme('colors.primary.500');
+}
+
+.glow-text {
+  text-shadow: 0 0 10px theme('colors.primary.500');
+}
+
+/* Card Hover Effects */
+.card-hover {
+  @apply transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl;
+}
+
+/* Animated Background */
+.animated-bg {
+  background: linear-gradient(
+    45deg,
+    theme('colors.dark.100'),
+    theme('colors.dark.200'),
+    theme('colors.dark.300')
+  );
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+:root {
+  --future-dark: #0a0a14;
+  --future-light: #e0e0ff;
+  --future-accent: #2d00f7;
+  --future-purple: #7a00ff;
+  --future-blue: #00a2ff;
+  --future-glow: rgba(109, 89, 255, 0.2);
+  --future-red: #ff006a;
+}
+
+@keyframes shimmer {
+  to { transform: translateX(200%); }
+}
+
+.bg-grid-pattern {
+  background-image: radial-gradient(circle at 1px 1px, var(--future-light) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+.bg-holographic-pattern {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    var(--future-glow) 10px,
+    var(--future-glow) 20px
+  );
+}
+
+.shadow-holographic {
+  box-shadow: 0 0 30px var(--future-glow);
+}
